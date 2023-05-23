@@ -12,7 +12,7 @@ data class UserEntity(
 
     @SerializedName("id")
     @Expose
-    var id: Int? = null,
+    override var id: Int? = null,
 
     @SerializedName("node_id")
     @Expose
@@ -81,4 +81,4 @@ data class UserEntity(
     @SerializedName("score")
     @Expose
     var score: Double? = null,
-)
+) : GitHubInfoEntity(id, owner = null)

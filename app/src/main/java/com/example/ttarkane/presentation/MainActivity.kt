@@ -1,14 +1,15 @@
-package com.example.ttarkane
+package com.example.ttarkane.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import com.example.ttarkane.R
 import com.example.ttarkane.data.ApiFactory
 import com.example.ttarkane.databinding.ActivityMainBinding
+import com.example.ttarkane.presentation.adapters.GitHubRepoUserAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var adapterGitHubInfoList: GitHubRepoUserAdapter
 
     private val scope = CoroutineScope(Dispatchers.IO);
 
@@ -39,7 +41,10 @@ class MainActivity : AppCompatActivity() {
                 .setAnchorView(R.id.fab)
                 .setAction("Action", null).show()
         }
-
+        scope.launch {
+            val result = ApiFactory.apiService.getRepositoriesList("Andrey").items
+        }
+//        adapterGitHubInfoList.submitList()
 
     }
 
