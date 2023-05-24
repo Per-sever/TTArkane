@@ -16,12 +16,14 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/iv_user_avatar"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="5dp"
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <TextView
+            android:id="@+id/tv_user_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -32,6 +34,7 @@
             tools:text="Novohudonosor" />
 
         <TextView
+            android:id="@+id/tv_user_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

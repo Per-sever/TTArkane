@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 data class RepositoryEntity(
     @SerializedName("id")
     @Expose
-    override var id: Int? = null,
+    var id: Int? = null,
 
     @SerializedName("node_id")
     @Expose
@@ -28,7 +28,7 @@ data class RepositoryEntity(
 
     @SerializedName("owner")
     @Expose
-    override var owner: RepositoryOwnerEntity? = null,
+    var owner: RepositoryOwnerEntity? = null,
 
     @SerializedName("html_url")
     @Expose
@@ -325,4 +325,4 @@ data class RepositoryEntity(
     @SerializedName("score")
     @Expose
     var score: Double? = null,
-): GitHubInfoEntity(id, owner)
+)
