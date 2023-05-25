@@ -12,6 +12,8 @@ class GitHubInfoViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHold
 }
 
 class UserViewHolder(val binding: UserItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+
     fun bind(item: UserEntity) {
         with(binding) {
             tvUserLogin.text = item.login
@@ -20,6 +22,8 @@ class UserViewHolder(val binding: UserItemBinding) : RecyclerView.ViewHolder(bin
         }
 
     }
+
+
 }
 
 class RepositoryViewHolder(val binding: RepositoryItemBinding) : RecyclerView.ViewHolder(
@@ -27,6 +31,16 @@ class RepositoryViewHolder(val binding: RepositoryItemBinding) : RecyclerView.Vi
         .root
 ) {
     fun bind(item: RepositoryEntity) {
+        with(binding) {
+            tvNameRepo.text = item.name
+            tvRepoDescr.text = item.description
+            tvForksCount.text = formattingCountForks(item.forks ?: 0)
+        }
+    }
 
+    private fun formattingCountForks(count: Int): String {
+        return "$count \n Forks"
     }
 }
+
+

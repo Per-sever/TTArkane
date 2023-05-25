@@ -13,6 +13,9 @@ class GitHubRepoUserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val dataUser = mutableListOf<UserEntity>()
     private val data = mutableListOf<Any>()
 
+    var onUserClickListener: ((UserEntity) -> Unit)? = null
+
+
     fun addDataUser(data: List<UserEntity>) {
         val userOldCount = dataUser.count()
         dataUser.addAll(data)
@@ -26,6 +29,13 @@ class GitHubRepoUserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyItemRangeInserted(oldCount, data.size)
     }
 
+    fun clearList() {
+        if (data.isNotEmpty()) {
+            dataUser.clear()
+            data.clear()
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
@@ -33,6 +43,7 @@ class GitHubRepoUserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val binding = RepositoryItemBinding.inflate(layoutInflater, parent, false)
                 RepositoryViewHolder(binding)
             }
+
             else -> {
                 val binding = UserItemBinding.inflate(layoutInflater, parent, false)
                 UserViewHolder(binding)
@@ -44,7 +55,12 @@ class GitHubRepoUserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when (holder) {
             is UserViewHolder -> {
                 holder.bind(data[position] as UserEntity)
+                holder.itemView.setOnClickListener {
+                    onUserClickListener?.invoke(data[position] as UserEntity)
+                }
+
             }
+
             is RepositoryViewHolder -> {
                 holder.bind(data[position] as RepositoryEntity)
             }
@@ -63,6 +79,7 @@ class GitHubRepoUserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             VIEW_TYPE_USER
         }
     }
+
     companion object {
         const val VIEW_TYPE_USER = 100
         const val VIEW_TYPE_REPOSITORY = 101

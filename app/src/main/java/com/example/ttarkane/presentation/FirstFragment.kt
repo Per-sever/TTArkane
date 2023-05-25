@@ -1,19 +1,19 @@
 package com.example.ttarkane.presentation
 
-import android.media.MediaCodec.LinearBlock
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ttarkane.data.ApiFactory
 import com.example.ttarkane.databinding.FragmentFirstBinding
 import com.example.ttarkane.presentation.adapters.GitHubRepoUserAdapter
-import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -21,6 +21,10 @@ import kotlinx.coroutines.launch
 class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
+
+    private val viewModel by lazy {
+        ViewModelProvider(this)[SearchInfoViewModel::class.java]
+    }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -30,9 +34,8 @@ class FirstFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
-
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -43,11 +46,26 @@ class FirstFragment : Fragment() {
         addTextChangeListeners()
         binding.recyclerView3.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView3.adapter = adapter
-
-        lifecycleScope.launch {
-          val response =  ApiFactory.apiService.getUsersList("user")
-            adapter.addDataUser(response.items ?: mutableListOf())
+        adapter.onUserClickListener = {
+            if (it.htmlUrl != null) {
+                val browserIntent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse(it.htmlUrl))
+                startActivity(browserIntent)
+            } else {
+                Toast.makeText(requireActivity(), "Такой ссылки нет :(", Toast.LENGTH_SHORT).show()
+            }
         }
+        viewModel.repoList.observe(requireActivity()) {
+            adapter.addDataRepo(it)
+        }
+        viewModel.userList.observe(requireActivity()) {
+            adapter.addDataUser(it)
+        }
+        binding.buttonSearch.setOnClickListener {
+//            adapter.clearList()
+            viewModel.loadData(binding.searchBarInput.text.toString())
+
+        }
+
 //        binding.buttonFirst.setOnClickListener {
 //            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
 //        }
