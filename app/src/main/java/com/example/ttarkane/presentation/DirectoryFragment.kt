@@ -9,40 +9,34 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ttarkane.R
-import com.example.ttarkane.databinding.FragmentSecondBinding
+import com.example.ttarkane.databinding.FragmentDirectoryBinding
 import com.example.ttarkane.presentation.adapters.directory_repo.DirectoryAdapter
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
-class SecondFragment : Fragment() {
 
-    private var _binding: FragmentSecondBinding? = null
+class DirectoryFragment : Fragment() {
+
+    private var _binding: FragmentDirectoryBinding? = null
+    private val binding get() = _binding!!
+
+    private val adapter = DirectoryAdapter()
 
     private val viewModel by lazy {
         ViewModelProvider(this)[DirectoryViewModel::class.java]
     }
 
-    private val adapter = DirectoryAdapter()
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+    ): View {
+        _binding = FragmentDirectoryBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.recyclerView3.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView3.adapter = adapter
+        binding.rvDirectoryList.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvDirectoryList.adapter = adapter
         val repo = arguments?.getString(EXTRA_REPO) ?: ""
         val owner = arguments?.getString(EXTRA_OWNER) ?: ""
         viewModel.loadData(owner, repo)
@@ -57,9 +51,6 @@ class SecondFragment : Fragment() {
                 bundle
             )
         }
-//        binding.buttonSecond.setOnClickListener {
-//            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-//        }
     }
 
     override fun onDestroyView() {
@@ -75,7 +66,6 @@ class SecondFragment : Fragment() {
                 putString(EXTRA_REPO, repo)
             }
         }
-
         private const val EXTRA_OWNER = "owner_extra"
         private const val EXTRA_REPO = "repo_extra"
     }

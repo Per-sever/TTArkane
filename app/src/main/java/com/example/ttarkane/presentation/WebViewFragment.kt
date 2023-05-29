@@ -13,7 +13,6 @@ import com.example.ttarkane.databinding.FragmentWebViewBinding
 class WebViewFragment : Fragment() {
 
     private var _binding: FragmentWebViewBinding? = null
-
     private val binding get() = _binding!!
 
     private val viewModel by lazy {
@@ -36,8 +35,7 @@ class WebViewFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         _binding = FragmentWebViewBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -50,7 +48,6 @@ class WebViewFragment : Fragment() {
         }
 
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

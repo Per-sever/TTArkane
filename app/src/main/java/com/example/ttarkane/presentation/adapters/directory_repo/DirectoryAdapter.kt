@@ -25,14 +25,14 @@ class DirectoryAdapter :
         val directoryItem = getItem(position)
         val binding = holder.binding
         if (directoryItem.type == FOLDER_TYPE) {
-            binding.imageView3.setImageResource(R.drawable.folder_icon)
+            binding.ivIconDirectory.setImageResource(R.drawable.folder_icon)
         } else {
-            binding.imageView3.setImageResource(R.drawable.file_icon)
+            binding.ivIconDirectory.setImageResource(R.drawable.file_icon)
             holder.itemView.setOnClickListener() {
                 onFileClickListener?.invoke(directoryItem)
             }
         }
-        binding.textView.text = directoryItem.name
+        binding.tvItemName.text = directoryItem.name
     }
 
     companion object {

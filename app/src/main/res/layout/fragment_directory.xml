@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.SecondFragment">
+    tools:context=".presentation.DirectoryFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView3"
+        android:id="@+id/rv_directory_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:backgroundTint="#F2F2F2"

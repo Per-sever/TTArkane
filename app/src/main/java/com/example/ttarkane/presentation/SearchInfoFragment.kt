@@ -14,31 +14,25 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ttarkane.R
-import com.example.ttarkane.databinding.FragmentFirstBinding
+import com.example.ttarkane.databinding.FragmentSearchinfoBinding
 import com.example.ttarkane.presentation.adapters.GitHubRepoUserAdapter
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
-class FirstFragment : Fragment() {
+class SearchInfoFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentSearchinfoBinding? = null
+    private val binding get() = _binding!!
+
+    private val adapter = GitHubRepoUserAdapter()
 
     private val viewModel by lazy {
         ViewModelProvider(this)[SearchInfoViewModel::class.java]
     }
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    private val adapter = GitHubRepoUserAdapter()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+    ): View {
+        _binding = FragmentSearchinfoBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -46,8 +40,8 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addTextChangeListeners()
-        binding.recyclerView3.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView3.adapter = adapter
+        binding.rvGithubinfoList.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvGithubinfoList.adapter = adapter
         adapter.onUserClickListener = {
             if (it.htmlUrl != null) {
                 val browserIntent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse(it.htmlUrl))
@@ -57,17 +51,11 @@ class FirstFragment : Fragment() {
             }
         }
         adapter.onRepoClickListener = {
-            val bundle = SecondFragment.newInstance(
+            val bundle = DirectoryFragment.newInstance(
                 it.owner?.login.toString(), it
                     .name ?: ""
             )
             findNavController().navigate(R.id.SecondFragment, bundle)
-//            lifecycleScope.launch {
-//                val result = ApiFactory.apiService.getDirectoryRepo(
-//                    it.owner?.login.toString(), it
-//                        .name ?: ""
-//                )
-//            }
         }
         viewModel.repoList.observe(requireActivity()) {
             adapter.addDataRepo(it)
@@ -75,20 +63,16 @@ class FirstFragment : Fragment() {
         viewModel.userList.observe(requireActivity()) {
             adapter.addDataUser(it)
         }
-        binding.buttonSearch.setOnClickListener {
+        binding.ibButtonSearch.setOnClickListener {
 //            adapter.clearList()
-            viewModel.loadData(binding.searchBarInput.text.toString())
+            viewModel.loadData(binding.etSearchBarInput.text.toString())
 
         }
 
-
-//        binding.buttonFirst.setOnClickListener {
-//            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-//        }
     }
 
     private fun addTextChangeListeners() {
-        binding.searchBarInput.addTextChangedListener(object : TextWatcher {
+        binding.etSearchBarInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
