@@ -11,7 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ttarkane.R
 import com.example.ttarkane.databinding.FragmentFirstBinding
 import com.example.ttarkane.presentation.adapters.GitHubRepoUserAdapter
 
@@ -54,6 +56,19 @@ class FirstFragment : Fragment() {
                 Toast.makeText(requireActivity(), "Такой ссылки нет :(", Toast.LENGTH_SHORT).show()
             }
         }
+        adapter.onRepoClickListener = {
+            val bundle = SecondFragment.newInstance(
+                it.owner?.login.toString(), it
+                    .name ?: ""
+            )
+            findNavController().navigate(R.id.SecondFragment, bundle)
+//            lifecycleScope.launch {
+//                val result = ApiFactory.apiService.getDirectoryRepo(
+//                    it.owner?.login.toString(), it
+//                        .name ?: ""
+//                )
+//            }
+        }
         viewModel.repoList.observe(requireActivity()) {
             adapter.addDataRepo(it)
         }
@@ -65,6 +80,7 @@ class FirstFragment : Fragment() {
             viewModel.loadData(binding.searchBarInput.text.toString())
 
         }
+
 
 //        binding.buttonFirst.setOnClickListener {
 //            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)

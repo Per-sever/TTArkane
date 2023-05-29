@@ -14,6 +14,7 @@ class GitHubRepoUserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val data = mutableListOf<Any>()
 
     var onUserClickListener: ((UserEntity) -> Unit)? = null
+    var onRepoClickListener: ((RepositoryEntity) -> Unit)? = null
 
 
     fun addDataUser(data: List<UserEntity>) {
@@ -63,6 +64,9 @@ class GitHubRepoUserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             is RepositoryViewHolder -> {
                 holder.bind(data[position] as RepositoryEntity)
+                holder.itemView.setOnClickListener {
+                    onRepoClickListener?.invoke(data[position] as RepositoryEntity)
+                }
             }
 
         }
