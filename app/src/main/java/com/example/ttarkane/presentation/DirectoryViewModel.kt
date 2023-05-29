@@ -1,5 +1,6 @@
 package com.example.ttarkane.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,9 +16,16 @@ class DirectoryViewModel : ViewModel() {
     private val _directoryList = MutableLiveData<List<DirectoryEntity>>()
     val directoryList: LiveData<List<DirectoryEntity>> = _directoryList
 
-    fun loadData(owner: String, repo: String) {
+
+    fun loadData(owner: String?, repo: String?) {
         viewModelScope.launch {
-            _directoryList.value = directoryListGH.getDirectoryRepo(owner, repo)
+            _directoryList.value = directoryListGH.getRootDirectoryRepo(owner, repo)
+        }
+    }
+
+    fun loadData(owner: String?, repo: String?, name: String?) {
+        viewModelScope.launch {
+            _directoryList.value = directoryListGH.getDirectoryRepo(owner, repo, name)
         }
     }
 }

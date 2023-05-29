@@ -20,10 +20,22 @@ class DirectoryFragment : Fragment() {
 
     private val adapter = DirectoryAdapter()
 
+    private var ownerName: String? = null
+    private var repoName: String? = null
+    private var pathName: String? = null
+
     private val viewModel by lazy {
         ViewModelProvider(this)[DirectoryViewModel::class.java]
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            repoName = it.getString(EXTRA_REPO) ?: ""
+            ownerName = it.getString(EXTRA_OWNER) ?: ""
+            pathName = it.getString(EXTRA_DIR) ?: ""
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,21 +49,36 @@ class DirectoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.rvDirectoryList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvDirectoryList.adapter = adapter
-        val repo = arguments?.getString(EXTRA_REPO) ?: ""
-        val owner = arguments?.getString(EXTRA_OWNER) ?: ""
-        viewModel.loadData(owner, repo)
+        if (pathName == "") {
+            viewModel.loadData(ownerName, repoName)
+
+        } else {
+            viewModel.loadData(ownerName, repoName, pathName)
+        }
         viewModel.directoryList.observe(requireActivity()) {
             adapter.submitList(it)
         }
 
         adapter.onFileClickListener = {
-            val bundle = WebViewFragment.newInstance(it, owner, repo)
+            val bundle = ContentFileFragment.newInstance(it, ownerName, repoName)
             findNavController().navigate(
                 R.id.action_DirectoryListFragment_to_WebViewFragment,
                 bundle
             )
         }
+
+        adapter.onFolderClickListener = {
+            val bundle = it.type?.let { dir ->
+                newInstanceDirectory(
+                    ownerName.toString(),
+                    repoName.toString(),
+                    it.path.toString()
+                )
+            }
+            findNavController().navigate(R.id.SecondFragment, bundle)
+        }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -60,13 +87,23 @@ class DirectoryFragment : Fragment() {
 
 
     companion object {
-        fun newInstance(owner: String, repo: String): Bundle {
+        fun newInstanceRootDirectory(owner: String, repo: String): Bundle {
             return Bundle().apply {
                 putString(EXTRA_OWNER, owner)
                 putString(EXTRA_REPO, repo)
             }
         }
+
+        fun newInstanceDirectory(owner: String, repo: String, dir: String): Bundle {
+            return Bundle().apply {
+                putString(EXTRA_OWNER, owner)
+                putString(EXTRA_REPO, repo)
+                putString(EXTRA_DIR, dir)
+            }
+        }
+
         private const val EXTRA_OWNER = "owner_extra"
         private const val EXTRA_REPO = "repo_extra"
+        private const val EXTRA_DIR = "dir_extra"
     }
 }

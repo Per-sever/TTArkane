@@ -51,7 +51,7 @@ class SearchInfoFragment : Fragment() {
             }
         }
         adapter.onRepoClickListener = {
-            val bundle = DirectoryFragment.newInstance(
+            val bundle = DirectoryFragment.newInstanceRootDirectory(
                 it.owner?.login.toString(), it
                     .name ?: ""
             )

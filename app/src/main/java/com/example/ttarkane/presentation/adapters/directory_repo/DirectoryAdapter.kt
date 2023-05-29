@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.ttarkane.R
 import com.example.ttarkane.data.models.DirectoryEntity
-import com.example.ttarkane.data.models.UserEntity
 import com.example.ttarkane.databinding.DirectoryItemBinding
 
 class DirectoryAdapter :
     ListAdapter<DirectoryEntity, DirectoryViewHolder>(DirectoryDiffCallback()) {
 
     var onFileClickListener: ((DirectoryEntity) -> Unit)? = null
+    var onFolderClickListener: ((DirectoryEntity) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectoryViewHolder {
         val binding = DirectoryItemBinding.inflate(
@@ -26,6 +26,9 @@ class DirectoryAdapter :
         val binding = holder.binding
         if (directoryItem.type == FOLDER_TYPE) {
             binding.ivIconDirectory.setImageResource(R.drawable.folder_icon)
+            holder.itemView.setOnClickListener() {
+                onFolderClickListener?.invoke(directoryItem)
+            }
         } else {
             binding.ivIconDirectory.setImageResource(R.drawable.file_icon)
             holder.itemView.setOnClickListener() {

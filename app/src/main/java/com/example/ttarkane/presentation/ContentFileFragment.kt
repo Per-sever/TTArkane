@@ -8,11 +8,11 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.ttarkane.data.models.DirectoryEntity
-import com.example.ttarkane.databinding.FragmentWebViewBinding
+import com.example.ttarkane.databinding.FragmentContentFileBinding
 
-class WebViewFragment : Fragment() {
+class ContentFileFragment : Fragment() {
 
-    private var _binding: FragmentWebViewBinding? = null
+    private var _binding: FragmentContentFileBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel by lazy {
@@ -36,7 +36,7 @@ class WebViewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentWebViewBinding.inflate(inflater, container, false)
+        _binding = FragmentContentFileBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -68,7 +68,7 @@ class WebViewFragment : Fragment() {
         private const val REPO_EXTRA = "repo_extra"
 
 
-        fun newInstance(directoryEntity: DirectoryEntity, owner: String, repo: String) =
+        fun newInstance(directoryEntity: DirectoryEntity, owner: String?, repo: String?) =
             Bundle().apply {
                 putParcelable(DIRECTORY_EXTRA, directoryEntity)
                 putString(OWNER_EXTRA, owner)

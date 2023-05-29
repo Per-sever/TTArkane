@@ -22,7 +22,7 @@ class WebViewViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val responseFileDeferred = async {
-                    directoryEntity?.name?.let {
+                    directoryEntity?.path?.let {
                         infoListGH.getFileItem(
                             owner, repo,
                             it

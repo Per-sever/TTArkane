@@ -22,14 +22,14 @@
         tools:layout="@layout/fragment_directory">
         <action
             android:id="@+id/action_DirectoryListFragment_to_WebViewFragment"
-            app:destination="@id/WebViewFragment" />
+            app:destination="@id/ContentFileFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/WebViewFragment"
-        android:name="com.example.ttarkane.presentation.WebViewFragment"
+        android:id="@+id/ContentFileFragment"
+        android:name="com.example.ttarkane.presentation.ContentFileFragment"
         android:label="WebViewFragment"
-        tools:layout="@layout/fragment_web_view"
+        tools:layout="@layout/fragment_content_file"
         >
 
 

@@ -22,7 +22,7 @@ interface ApiService {
     ): RepositoryListEntity
 
     @GET("repos/{owner}/{repo}/contents")
-    suspend fun getDirectoryRepo(@Path("owner") owner: String, @Path("repo") repo: String):
+    suspend fun getRootDirectoryRepo(@Path("owner") owner: String?, @Path("repo") repo: String?):
             List<DirectoryEntity>
 
     @GET("/repos/{owner}/{repo}/contents/{fileName}?ref=master")
@@ -32,4 +32,12 @@ interface ApiService {
             ("fileName") fileName:
         String,
     ): FileEntity
+
+    @GET("/repos/{owner}/{repo}/contents/{fileName}?ref=master")
+    suspend fun getDirectoryRepo(
+        @Path("owner") owner: String?, @Path("repo") repo: String?,
+        @Path
+            ("fileName") fileName:
+        String?,
+    ): List<DirectoryEntity>
 }
