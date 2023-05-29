@@ -20,9 +20,18 @@
         android:name="com.example.ttarkane.presentation.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
-
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_DirectoryListFragment_to_WebViewFragment"
+            app:destination="@id/WebViewFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/WebViewFragment"
+        android:name="com.example.ttarkane.presentation.WebViewFragment"
+        android:label="WebViewFragment"
+        tools:layout="@layout/fragment_web_view"
+        >
+
+
     </fragment>
 </navigation>

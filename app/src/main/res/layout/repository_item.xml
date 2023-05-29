@@ -2,12 +2,6 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable
-            name="repositoryEntity"
-            type="com.example.ttarkane.data.models.RepositoryEntity"
-            />
-    </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

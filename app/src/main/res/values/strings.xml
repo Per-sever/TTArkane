@@ -44,4 +44,6 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="mock_repo_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et lobortis eros, at semper ipsum. Maecenas sapien urna, mattis et sapien malesuada, vestibulum congue tortor. Nulla facilisi. Etiam nisl lectus, facilisis eget velit eget, molestie tincidunt libero. Fusce vel mauris non tortor condimentum pellentesque quis a neque. Sed tortor risus, blandit ac tortor ac, fermentum rhoncus dui. Proin dignissim ipsum nisl, sed blandit orci volutpat sit amet. Nullam mollis urna ut dignissim volutpat. Cras pharetra iaculis turpis, ut suscipit ante placerat et. Cras euismod, ante non tempus malesuada, magna erat ullamcorper ex, non pellentesque velit arcu nec erat.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
