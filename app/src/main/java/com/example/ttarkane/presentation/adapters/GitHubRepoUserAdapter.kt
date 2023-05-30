@@ -2,45 +2,81 @@ package com.example.ttarkane.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.ListAdapter
-import com.example.ttarkane.R
-import com.example.ttarkane.data.models.GitHubInfoEntity
+import androidx.recyclerview.widget.RecyclerView
 import com.example.ttarkane.data.models.RepositoryEntity
+import com.example.ttarkane.data.models.UserEntity
 import com.example.ttarkane.databinding.RepositoryItemBinding
+import com.example.ttarkane.databinding.UserItemBinding
 
-class GitHubRepoUserAdapter : ListAdapter<GitHubInfoEntity, GitHubInfoViewHolder>
-    (GitHubInfoListCallBack()) {
+class GitHubRepoUserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GitHubInfoViewHolder {
-        val layout = when (viewType) {
-            VIEW_TYPE_REPOSITORY -> R.layout.repository_item
-            VIEW_TYPE_USER -> R.layout.user_item
-            else -> throw RuntimeException("Unknown view type: $viewType")
-        }
-        val binding = DataBindingUtil.inflate<ViewDataBinding>(
-            LayoutInflater.from(parent.context),
-            layout,
-            parent,
-            false
-        )
-        return GitHubInfoViewHolder(binding)
+    private val dataUser = mutableListOf<UserEntity>()
+    private val data = mutableListOf<Any>()
+
+    var onUserClickListener: ((UserEntity) -> Unit)? = null
+    var onRepoClickListener: ((RepositoryEntity) -> Unit)? = null
+
+
+    fun addDataUser(data: List<UserEntity>) {
+        val userOldCount = dataUser.count()
+        dataUser.addAll(data)
+        this.data.addAll(userOldCount, data)
+        notifyItemRangeChanged(userOldCount, this.data.size - userOldCount)
     }
 
-    override fun onBindViewHolder(holder: GitHubInfoViewHolder, position: Int) {
-        val gitHubInfoItem = getItem(position)
-        val binding = holder.binding
-        when (binding) {
-            is RepositoryItemBinding -> {
-                binding.repositoryEntity = gitHubInfoItem as RepositoryEntity?
+    fun addDataRepo(data: List<RepositoryEntity>) {
+        val oldCount = data.count()
+        this.data.addAll(data)
+        notifyItemRangeInserted(oldCount, data.size)
+    }
+
+    fun clearList() {
+        data.clear()
+        dataUser.clear()
+        notifyDataSetChanged()
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            VIEW_TYPE_REPOSITORY -> {
+                val binding = RepositoryItemBinding.inflate(layoutInflater, parent, false)
+                RepositoryViewHolder(binding)
+            }
+
+            else -> {
+                val binding = UserItemBinding.inflate(layoutInflater, parent, false)
+                UserViewHolder(binding)
             }
         }
     }
 
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is UserViewHolder -> {
+                holder.bind(data[position] as UserEntity)
+                holder.itemView.setOnClickListener {
+                    onUserClickListener?.invoke(data[position] as UserEntity)
+                }
+
+            }
+
+            is RepositoryViewHolder -> {
+                holder.bind(data[position] as RepositoryEntity)
+                holder.itemView.setOnClickListener {
+                    onRepoClickListener?.invoke(data[position] as RepositoryEntity)
+                }
+            }
+
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return data.size
+    }
+
     override fun getItemViewType(position: Int): Int {
-        val gitHubInfoItem = getItem(position)
-        return if (gitHubInfoItem.owner != null) {
+        return if ((data[position] as? UserEntity) == null) {
             VIEW_TYPE_REPOSITORY
         } else {
             VIEW_TYPE_USER
