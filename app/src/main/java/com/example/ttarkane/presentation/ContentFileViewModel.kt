@@ -10,7 +10,7 @@ import com.example.ttarkane.data.models.FileEntity
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class WebViewViewModel : ViewModel() {
+class ContentFileViewModel : ViewModel() {
 
     private val infoListGH = ApiFactory.apiService
 

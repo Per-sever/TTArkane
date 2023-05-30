@@ -16,7 +16,7 @@ class ContentFileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by lazy {
-        ViewModelProvider(this)[WebViewViewModel::class.java]
+        ViewModelProvider(this)[ContentFileViewModel::class.java]
     }
 
     private var directoryEntity: DirectoryEntity? = null

@@ -116,9 +116,11 @@ class SearchInfoFragment : Fragment() {
                 }
 
                 is LoadingState.Error -> {
+                    binding.pbGithubinfoList.visibility = View.GONE
+                    binding.tvButtonRequest.visibility = View.VISIBLE
+                    binding.tvErrorRequest.visibility = View.VISIBLE
                     Log.d("SearchInfoFragment", it.errorMessage)
-//                    binding.tvButtonRequest.visibility = View.VISIBLE
-//                    binding.tvErrorRequest.visibility = View.VISIBLE
+
                 }
             }
         }

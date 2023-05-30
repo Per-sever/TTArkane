@@ -8,9 +8,6 @@ import com.example.ttarkane.data.models.UserEntity
 import com.example.ttarkane.databinding.RepositoryItemBinding
 import com.example.ttarkane.databinding.UserItemBinding
 
-class GitHubInfoViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
-}
-
 class UserViewHolder(val binding: UserItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
 

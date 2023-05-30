@@ -58,7 +58,11 @@ class DirectoryFragment : Fragment() {
         viewModel.directoryList.observe(requireActivity()) {
             adapter.submitList(it)
         }
+        setListeners()
+    }
 
+
+    private fun setListeners() {
         adapter.onFileClickListener = {
             val bundle = ContentFileFragment.newInstance(it, ownerName, repoName)
             findNavController().navigate(

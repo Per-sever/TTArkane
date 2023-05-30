@@ -9,6 +9,8 @@ import com.example.ttarkane.data.models.RepositoryEntity
 import com.example.ttarkane.data.models.UserEntity
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 class SearchInfoViewModel : ViewModel() {
 
@@ -29,8 +31,6 @@ class SearchInfoViewModel : ViewModel() {
     private val _inputText = MutableLiveData<String>()
     val inputText: LiveData<String> = _inputText
 
-    private val _isButtonEnabled: LiveData<Boolean> = MutableLiveData<Boolean>()
-    val isButtonEnabled: LiveData<Boolean> = _isButtonEnabled
 
     fun loadData(input: String) {
         _loadingState.value = LoadingState.Loading
@@ -43,7 +43,7 @@ class SearchInfoViewModel : ViewModel() {
                     _userList.value = responseUserDeferred.await()
                     _repoList.value = responseRepoDeferred.await()
                     _loadingState.value = LoadingState.Success
-                } catch (e: Exception) {
+                } catch (e: Throwable) {
                     _loadingState.value = LoadingState.Error(e.toString())
                 }
             }
