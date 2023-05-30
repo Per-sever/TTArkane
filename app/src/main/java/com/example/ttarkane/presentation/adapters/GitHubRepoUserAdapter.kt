@@ -31,10 +31,9 @@ class GitHubRepoUserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun clearList() {
-        if (data.isNotEmpty()) {
-            dataUser.clear()
-            data.clear()
-        }
+        data.clear()
+        dataUser.clear()
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
